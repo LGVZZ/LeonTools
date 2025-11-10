@@ -33,11 +33,8 @@ public class GUIchat implements ActionListener {
     private static JButton SendButton;
     private static JButton ChangeNameButton;
 
-
-
     static int width = 600;
     static int height = 350;
-
 
     static String PCName;
     static String name;
@@ -56,7 +53,6 @@ public class GUIchat implements ActionListener {
         Chat.setWrapStyleWord(true);
         Chat.setFocusable(false);
 
-
         SendButton = new JButton("Send");
         SendButton.addActionListener(this);
         frame.getRootPane().setDefaultButton(SendButton);
@@ -66,16 +62,13 @@ public class GUIchat implements ActionListener {
         ChangeNameButton.setText("Change Name to:");
         ChangeNameButton.addActionListener(this);
 
-
         UserText = new JTextField();
 
         NewName = new JTextField();
         limitTextField(NewName, 20);
 
-
         ScrollPane = new JScrollPane(Chat);
         ScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
 
         root = new JPanel(null);
         frame.setContentPane(root);
@@ -85,7 +78,6 @@ public class GUIchat implements ActionListener {
         root.add(SendButton);
         root.add(NewName);
         root.add(ChangeNameButton);
-
 
         double whidthRatio = 0.9;
         double heightRatio = 0.7;
@@ -103,12 +95,10 @@ public class GUIchat implements ActionListener {
 
                 int margin = 10;
 
-
                 int UserTextHeight = 35;
                 int NewNameHeight = 25;
 
                 int SendButtonWidth = 100;
-
 
                 int ChangeNameButtonWidth = 130;
 
@@ -121,7 +111,6 @@ public class GUIchat implements ActionListener {
 
                 UserText.setBounds(0, UserTextY, UserTextWidth, UserTextHeight);
                 SendButton.setBounds(UserTextWidth + margin, UserTextY, SendButtonWidth, UserTextHeight);
-
 
                 ChangeNameButton.setBounds(0, NewNameY, ChangeNameButtonWidth, NewNameHeight);
                 NewName.setBounds(NewNameX, NewNameY, NewNameWidth, NewNameHeight);
@@ -150,7 +139,9 @@ public class GUIchat implements ActionListener {
                     super.replace(fb, offset, length, text, attrs);
                     field.setBackground(Color.white);
                 } else {
-                    JOptionPane.showMessageDialog(frame, "The new entered name is to long, please enter a name that has a maximum of 20 characters!", "Name to Long!", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(frame,
+                            "The new entered name is to long, please enter a name that has a maximum of 20 characters!",
+                            "Name to Long!", JOptionPane.WARNING_MESSAGE);
                 }
             }
 
@@ -164,24 +155,23 @@ public class GUIchat implements ActionListener {
                     super.insertString(fb, offset, string, attr);
                     field.setBackground(Color.white);
                 } else {
-                    JOptionPane.showMessageDialog(frame, "The new entered name is to long, please enter a name that has a maximum of 20 characters!", "Name to Long!", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(frame,
+                            "The new entered name is to long, please enter a name that has a maximum of 20 characters!",
+                            "Name to Long!", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
     }
-
 
     public void addline(String line) {
         Chat.append(line + "\n");
         Chat.setCaretPosition(Chat.getDocument().getLength());
     }
 
-
     public void startFileMonitoring() {
 
-
         GUIchat gui = this;
-        
+
         File file = new File(filePath);
         Path path = file.toPath();
         Path dirPath = path.getParent();
@@ -214,7 +204,8 @@ public class GUIchat implements ActionListener {
                                     String chunk = new String(bytes, StandardCharsets.UTF_8);
                                     String[] lines = chunk.split("\\r?\\n", -1);
                                     for (String line : lines) {
-                                        if (line.isEmpty()) continue;
+                                        if (line.isEmpty())
+                                            continue;
                                         if (temp2 > 0) {
                                             gui.addline(line);
                                         } else {
@@ -244,84 +235,51 @@ public class GUIchat implements ActionListener {
 
     }
 
-
     /*
-    public static String name(){
-        String name = "";
-        try {
-            Process process = new ProcessBuilder("cmd.exe", "/c", "net use Z:")
-                    .redirectErrorStream(true)
-                    .start();
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream(), "CP850"));
-
-            String Text = reader.lines().collect(Collectors.joining("\n"));
-
-            process.waitFor();
-
-            int pos = Text.indexOf("Remotename");
-
-            if(pos != -1){
-
-                String subString1 = Text.substring(pos);
-                int pos2 = Text.indexOf("\n", pos);
-
-                if(pos2 != -1){
-
-                    String subString2 = Text.substring(pos, pos2);
-                    int pos3 = Text.indexOf("homes", pos);
-
-                    if(pos3 != -1){
-                        pos3 += 6;
-                        name = Text.substring(pos3, pos2);
-                    }
-                }
-
-            }
-        }
-
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        PCName = name;
-        return name;
-    }
-    */
+     * public static String name(){ String name = ""; try { Process process = new
+     * ProcessBuilder("cmd.exe", "/c", "net use Z:") .redirectErrorStream(true)
+     * .start(); BufferedReader reader = new BufferedReader(new
+     * InputStreamReader(process.getInputStream(), "CP850")); String Text =
+     * reader.lines().collect(Collectors.joining("\n")); process.waitFor(); int pos
+     * = Text.indexOf("Remotename"); if(pos != -1){ String subString1 =
+     * Text.substring(pos); int pos2 = Text.indexOf("\n", pos); if(pos2 != -1){
+     * String subString2 = Text.substring(pos, pos2); int pos3 =
+     * Text.indexOf("homes", pos); if(pos3 != -1){ pos3 += 6; name =
+     * Text.substring(pos3, pos2); } } } } catch (Exception e) {
+     * e.printStackTrace(); } PCName = name; return name; }
+     */
 
     public static void writeToFile() throws FileNotFoundException {
 
         int spacecount = 0;
         boolean space = false;
 
+        String text = UserText.getText();
 
-            String text = UserText.getText();
-
-            for (int i = 0; i < text.length(); i++) {
-                if (text.charAt(i) == ' ') {
-                    spacecount++;
-                }
+        for (int i = 0; i < text.length(); i++) {
+            if (text.charAt(i) == ' ') {
+                spacecount++;
             }
+        }
 
-            if (spacecount == text.length()) {
-                space = true;
+        if (spacecount == text.length()) {
+            space = true;
+        }
+
+        if (!text.isEmpty() && !space) {
+
+            try (Writer writer = new OutputStreamWriter(new FileOutputStream(filePath, true), StandardCharsets.UTF_8)) {
+                writer.write(name + ": " + text + "\n");
+            } catch (IOException e) {
+                System.out.println("Fehler beim Schreiben: " + e.getMessage());
             }
-
-            if (!text.isEmpty() && !space) {
-
-
-                try (Writer writer = new OutputStreamWriter(
-                        new FileOutputStream(filePath, true), StandardCharsets.UTF_8)) {
-                    writer.write(name + ": " + text + "\n");
-                } catch (IOException e) {
-                    System.out.println("Fehler beim Schreiben: " + e.getMessage());
-                }
-            } else {
-                System.out.print("\033[F");
-                System.out.print("\033[2K");
-            }
+        } else {
+            System.out.print("\033[F");
+            System.out.print("\033[2K");
+        }
     }
 
-    public void RandomColor(){
+    public void RandomColor() {
         Random red = new Random();
         Random green = new Random();
         Random blue = new Random();
@@ -340,10 +298,8 @@ public class GUIchat implements ActionListener {
         file.createNewFile();
     }
 
-
-
-    public static void main (String[]args) throws IOException {
-        name = "leon.graf"; //name();
+    public static void main(String[] args) throws IOException {
+        name = "leon.graf"; // name();
         checkForChatTXT(filePath);
         GUIchat monitor = new GUIchat();
         monitor.startFileMonitoring();
@@ -352,7 +308,7 @@ public class GUIchat implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         boolean newNameHasSpecialChar = false;
-        if(e.getSource() == SendButton) {
+        if (e.getSource() == SendButton) {
             try {
                 writeToFile();
             } catch (FileNotFoundException ex) {
@@ -360,32 +316,27 @@ public class GUIchat implements ActionListener {
             }
             UserText.setText("");
         }
-        if(e.getSource() == ChangeNameButton){
+        if (e.getSource() == ChangeNameButton) {
             newName = NewName.getText();
             NewName.setText("");
 
-            for(int i = 0 ; i < newName.length() ; i++){
-                if(newName.charAt(i) == '.' ||
-                        newName.charAt(i) == ',' ||
-                        newName.charAt(i) == ';' ||
-                        newName.charAt(i) == '!' ||
-                        newName.charAt(i) == '?' ||
-                        newName.charAt(i) == ' ') {
-                    JOptionPane.showMessageDialog(frame, "Please do NOT use Characters like: . / , / ; / ! / ? / etc..", "New Name has not Wanted Characters", JOptionPane.WARNING_MESSAGE);
+            char[] illegal = { '.', ',', ';', '!', '?', ' ' };
+            for (char illegal_char : illegal)
+                if (newName.indexOf(illegal_char) != -1) {
+                    JOptionPane.showMessageDialog(frame, "Please do NOT use Characters like: . / , / ; / ! / ? / etc..",
+                            "New Name has not Wanted Characters", JOptionPane.WARNING_MESSAGE);
                     newNameHasSpecialChar = true;
+                    break;
                 }
-            }
-            if(newName.isEmpty()){
-                newNameHasSpecialChar = true;
-            }
 
-            if(!newNameHasSpecialChar){
+            if (newName.isEmpty())
+                newNameHasSpecialChar = true;
+
+            if (!newNameHasSpecialChar)
                 name = newName;
-            }
-            else{
+            else
                 newNameHasSpecialChar = false;
-            }
+
         }
     }
 }
-
