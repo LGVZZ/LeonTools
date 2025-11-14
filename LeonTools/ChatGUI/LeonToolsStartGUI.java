@@ -50,7 +50,7 @@ public class LeonToolsStartGUI implements ActionListener {
             if (currentChatRoom != null) {
                 JFrame f = currentChatRoom.getFrame();
                 if (f.isDisplayable()) {
-                    JOptionPane.showMessageDialog(f, "There can't be more than one Chat Room! Please close the opened Chat Room to Open another one");
+                    JOptionPane.showMessageDialog(f, "There can't be more than one Chat Room! Please close the opened Chat Room to Open another one", "To many Chat Rooms!", JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }
             }
