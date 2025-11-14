@@ -1,23 +1,11 @@
-package LeonTools;
+package LeonTools.ChatGUI;
 
 import javax.swing.*;
-import javax.swing.text.AbstractDocument;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DocumentFilter;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
-import java.util.Random;
-import java.util.stream.Collectors;
-import static java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY;
+import java.io.IOException;
 
-public class LeonToolsStartGUI {
+public class LeonToolsStartGUI implements ActionListener {
 
     private static JFrame frame;
     private static JPanel panel;
@@ -38,6 +26,7 @@ public class LeonToolsStartGUI {
         NewChatRoom.setBounds(160,90, 180, 20);
         NewChatRoom.setFocusable(false);
         frame.add(NewChatRoom);
+        NewChatRoom.addActionListener((ActionListener) this);
 
         JoinChatRoom = new JButton("Join Chat room");
         JoinChatRoom.setBounds(160,120, 180, 20);
@@ -47,8 +36,31 @@ public class LeonToolsStartGUI {
         frame.setVisible(true);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
+
         LeonToolsStartGUI leonToolsStartGUI = new LeonToolsStartGUI();
+    }
+
+    private GUIchat currentChatRoom = null;
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == NewChatRoom) {
+
+            if (currentChatRoom != null) {
+                JFrame f = currentChatRoom.getFrame();
+                if (f.isDisplayable()) {
+                    JOptionPane.showMessageDialog(f, "There can't be more than one Chat Room! Please close the opened Chat Room to Open another one");
+                    return;
+                }
+            }
+
+            try {
+                currentChatRoom = GUIchat.start("test", "test");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
     }
 
 }
