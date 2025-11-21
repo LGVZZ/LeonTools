@@ -1,1 +1,0 @@
-type NUL > "E:\Schule\it htl\SEW\javagui\src\LeonTools\ChatGUI\chat.txt"
